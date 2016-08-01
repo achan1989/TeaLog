@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -30,46 +33,12 @@ using System.Windows.Forms;
 
 namespace TeaLog
 {
-    public class LogManager
+    public partial class SettingsForm : Form
     {
-        private readonly NotifyIcon notifyIcon;
-        private SettingsForm settingsForm;
-
-
-        public LogManager(NotifyIcon notifyIcon)
+        public SettingsForm()
         {
-            this.notifyIcon = notifyIcon;
-            settingsForm = null;
-        }
-
-        public void BuildContextMenu(ContextMenuStrip menu, ToolStripMenuItem exitItem)
-        {
-            menu.Items.Add(exitItem);
-
-            var configItem = new ToolStripMenuItem("Config");
-            configItem.Click += ConfigItem_Click;
-            menu.Items.Add(configItem);
-        }
-
-        private void ConfigItem_Click(object sender, EventArgs e)
-        {
-            if (settingsForm == null)
-            {
-                settingsForm = new SettingsForm();
-                settingsForm.FormClosed += (_sender, _args) => settingsForm = null;
-                settingsForm.Show();
-            }
-            else
-            {
-                if (settingsForm.WindowState == FormWindowState.Minimized)
-                {
-                    settingsForm.WindowState = FormWindowState.Normal;
-                }
-                else
-                {
-                    settingsForm.Focus();
-                }
-            }
+            InitializeComponent();
+            Icon = new Icon(TeaAppContext.IconFileName);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace TeaLog
     /// </remarks>
     public class TeaAppContext : ApplicationContext
     {
-        private static readonly string IconFileName = "tea.ico";
+        public static readonly string IconFileName = "tea.ico";
         private static readonly string DefaultTooltip = "Log your tea!";
         private readonly LogManager logManager;
 
@@ -63,6 +63,8 @@ namespace TeaLog
         private void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = false;
+
+            notifyIcon.ContextMenuStrip.Items.Clear();
 
             var exitItem = new ToolStripMenuItem("&Exit");
             exitItem.Click += exitItem_Click;
@@ -126,7 +128,7 @@ namespace TeaLog
         /// <param name="e"></param>
         private void exitItem_Click(object sender, EventArgs e)
         {
-            ExitThread();
+            Application.Exit();
         }
 
         /// <summary>
