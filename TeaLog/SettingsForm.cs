@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TeaLog.Settings;
 
 
 /* 
@@ -35,10 +36,21 @@ namespace TeaLog
 {
     public partial class SettingsForm : Form
     {
-        public SettingsForm()
+        public AppSettings Settings { get; private set; }
+        public SettingsFormAction Action { get; private set; }
+
+        public SettingsForm(AppSettings settings)
         {
             InitializeComponent();
+            Settings = settings;
+            Action = SettingsFormAction.Cancel;
             Icon = new Icon(TeaAppContext.IconFileName);
+        }
+
+        public enum SettingsFormAction
+        {
+            Cancel,
+            Save
         }
     }
 }

@@ -85,8 +85,8 @@ namespace TeaLog
         {
             if (settingsForm == null)
             {
-                settingsForm = new SettingsForm();
-                settingsForm.FormClosed += (_sender, _args) => settingsForm = null;
+                settingsForm = new SettingsForm(settings);
+                settingsForm.FormClosed += SettingsForm_FormClosed;
                 settingsForm.Show();
             }
             else
@@ -100,6 +100,11 @@ namespace TeaLog
                     settingsForm.Focus();
                 }
             }
+        }
+
+        private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            settingsForm = null;
         }
     }
 }
