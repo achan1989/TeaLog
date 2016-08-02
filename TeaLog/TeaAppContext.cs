@@ -52,12 +52,6 @@ namespace TeaLog
             InitializeContext();
 
             logManager = new LogManager(notifyIcon);
-
-            /* TODO: init logic.
-            hostManager = new HostManager(notifyIcon);
-            hostManager.BuildServerAssociations();
-            if (!hostManager.IsDecorated) { ShowIntroForm(); }
-            */
         }
 
         private void ContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -69,16 +63,6 @@ namespace TeaLog
             var exitItem = new ToolStripMenuItem("&Exit");
             exitItem.Click += exitItem_Click;
             logManager.BuildContextMenu(notifyIcon.ContextMenuStrip, exitItem);
-
-            /* TODO: logic populates menu.
-            hostManager.BuildServerAssociations();
-            hostManager.BuildContextMenu(notifyIcon.ContextMenuStrip);
-            notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-            notifyIcon.ContextMenuStrip.Items.Add(hostManager.ToolStripMenuItemWithHandler("Show &Details", showDetailsItem_Click));
-            notifyIcon.ContextMenuStrip.Items.Add(hostManager.ToolStripMenuItemWithHandler("&Help/About", showHelpItem_Click));
-            notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-            notifyIcon.ContextMenuStrip.Items.Add(hostManager.ToolStripMenuItemWithHandler("&Exit", exitItem_Click));
-            */
         }
 
         
@@ -98,7 +82,6 @@ namespace TeaLog
                 Visible = true
             };
             notifyIcon.ContextMenuStrip.Opening += ContextMenuStrip_Opening;
-            /* notifyIcon.DoubleClick += notifyIcon_DoubleClick; show intro form */
             notifyIcon.MouseUp += notifyIcon_MouseUp;
         }
 
