@@ -47,10 +47,7 @@ namespace TeaLog
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message + Environment.NewLine + Environment.NewLine + ex.StackTrace,
-                    "TeaLog fatal error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.ShowException("TeaLog fatal error", null, ex);
             }
         }
     }
