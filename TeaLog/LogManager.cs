@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -104,7 +105,26 @@ namespace TeaLog
 
         private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            var sf = sender as SettingsForm;
+            Debug.Assert(sf != null, "Closed settingsForm but sf object is null.");
+
             settingsForm = null;
+
+            if (sf.Action == SettingsForm.SettingsFormAction.Save)
+            {
+                try
+                {
+                    var newSettings = sf.Settings;
+                    AppSettings.SaveSettings(newSettings);
+                    settings = newSettings;
+                }
+                catch (Exception ex)
+                {
+                    Util.ShowException("Error saving new application settings.", ex);
+                }
+
+                // TODO: switch log files if necessary.
+            }
         }
     }
 }
