@@ -86,7 +86,9 @@ namespace TeaLog
         {
             if (settingsForm == null)
             {
-                settingsForm = new SettingsForm(settings);
+                /* Pass a clone, otherwise the settings form could permanently edit the current settings
+                 * even if the user chooses not to save. */
+                settingsForm = new SettingsForm(settings.DeepClone());
                 settingsForm.FormClosed += SettingsForm_FormClosed;
                 settingsForm.Show();
             }
