@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TeaLog.Settings;
 
 
 /* 
@@ -33,6 +35,7 @@ namespace TeaLog
     public class LogManager
     {
         private readonly NotifyIcon notifyIcon;
+        private AppSettings settings;
         private SettingsForm settingsForm;
 
 
@@ -40,6 +43,33 @@ namespace TeaLog
         {
             this.notifyIcon = notifyIcon;
             settingsForm = null;
+
+            LoadAppSettings();
+        }
+
+        private void LoadAppSettings()
+        {
+            bool createNewSettings = false;
+            try
+            {
+                settings = AppSettings.LoadSettings();
+            }
+            catch (FileNotFoundException)
+            {
+                createNewSettings = true;
+            }
+            catch (Exception ex)
+            {
+                createNewSettings = true;
+                Util.ShowException("Error loading application settings. They will be overwritten with default settings.", ex);
+            }
+
+            /* Use default settings if none could be loaded, and save them for next time. */
+            if (createNewSettings)
+            {
+                settings = new AppSettings();
+                AppSettings.SaveSettings(settings);
+            }
         }
 
         public void BuildContextMenu(ContextMenuStrip menu, ToolStripMenuItem exitItem)
