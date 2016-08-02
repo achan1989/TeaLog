@@ -65,6 +65,25 @@ namespace TeaLog.Settings
         }
 
         /// <summary>
+        /// Create an entirely independant copy of the settings.
+        /// </summary>
+        /// <returns>a new AppSettings object.</returns>
+        public AppSettings DeepClone()
+        {
+            var clone = new AppSettings();
+
+            clone.LogFilePath = LogFilePath;
+            clone.Categories.AddRange(Categories);
+
+            foreach (var thing in LoggableThings)
+            {
+                clone.LoggableThings.Add(new LoggableThing(thing));
+            }
+
+            return clone;
+        }
+
+        /// <summary>
         /// Check if the configured LogFilePath is vaguely sane.
         /// </summary>
         /// <remarks>It is considered sane if it provides an absolute path to a file.</remarks>
@@ -140,5 +159,19 @@ namespace TeaLog.Settings
         /// Whether this should be shown in the context menu.
         /// </summary>
         public bool ShowInMenu;
+
+        public LoggableThing() { }
+
+        /// <summary>
+        /// Create a LoggableThing that is identical to another LoggableThing.
+        /// </summary>
+        /// <param name="other">The LoggableThing to copy.</param>
+        public LoggableThing(LoggableThing other)
+        {
+            this.Name = other.Name;
+            this.DisplayColour = other.DisplayColour;
+            this.Category = other.Category;
+            this.ShowInMenu = other.ShowInMenu;
+        }
     }
 }
