@@ -136,5 +136,9 @@ namespace TeaLog.Settings
         /// An optional category that this thing belongs to. Appears in the log entry if provided.
         /// </summary>
         public string Category;
+        /// <summary>
+        /// Whether this should be shown in the context menu.
+        /// </summary>
+        public bool ShowInMenu;
     }
 }
