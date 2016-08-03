@@ -49,11 +49,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsForm.Designer.cs">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
+    <Compile Include="AppSettingsWindow.xaml.cs">
+      <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="AppSettings.cs" />
@@ -77,14 +74,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsForm.resx">
-      <DependentUpon>SettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AppSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

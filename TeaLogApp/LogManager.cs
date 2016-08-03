@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
 using TeaLog.Settings;
 
@@ -37,13 +38,13 @@ namespace TeaLog
     {
         private readonly NotifyIcon notifyIcon;
         private AppSettings settings;
-        private SettingsForm settingsForm;
+        private AppSettingsWindow settingsWindow;
 
 
         public LogManager(NotifyIcon notifyIcon)
         {
             this.notifyIcon = notifyIcon;
-            settingsForm = null;
+            settingsWindow = null;
 
             LoadAppSettings();
         }
@@ -84,39 +85,39 @@ namespace TeaLog
 
         private void ConfigItem_Click(object sender, EventArgs e)
         {
-            if (settingsForm == null)
+            if (settingsWindow == null)
             {
                 /* Pass a clone, otherwise the settings form could permanently edit the current settings
                  * even if the user chooses not to save. */
-                settingsForm = new SettingsForm(settings.DeepClone());
-                settingsForm.FormClosed += SettingsForm_FormClosed;
-                settingsForm.Show();
+                settingsWindow = new AppSettingsWindow(settings.DeepClone());
+                settingsWindow.Closed += settingsWindow_Closed;
+                settingsWindow.Show();
             }
             else
             {
-                if (settingsForm.WindowState == FormWindowState.Minimized)
+                if (settingsWindow.WindowState == WindowState.Minimized)
                 {
-                    settingsForm.WindowState = FormWindowState.Normal;
+                    settingsWindow.WindowState = WindowState.Normal;
                 }
                 else
                 {
-                    settingsForm.Focus();
+                    settingsWindow.Focus();
                 }
             }
         }
 
-        private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void settingsWindow_Closed(object sender, EventArgs e)
         {
-            var sf = sender as SettingsForm;
-            Debug.Assert(sf != null, "Closed settingsForm but sf object is null.");
+            var sw = sender as AppSettingsWindow;
+            Debug.Assert(sw != null, "Closed settingsForm but sf object is null.");
 
-            settingsForm = null;
+            settingsWindow = null;
 
-            if (sf.Action == SettingsForm.SettingsFormAction.Save)
+            if (sw.Action == AppSettingsWindow.AppSettingsWindowAction.Save)
             {
                 try
                 {
-                    var newSettings = sf.Settings;
+                    var newSettings = sw.Settings;
                     AppSettings.SaveSettings(newSettings);
                     settings = newSettings;
                 }
