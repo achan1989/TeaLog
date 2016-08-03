@@ -44,7 +44,7 @@ namespace TeaLog
             InitializeComponent();
             Settings = settings;
             Action = SettingsFormAction.Cancel;
-            Icon = new Icon(TeaAppContext.IconFileName);
+            Icon = new Icon("tea.ico");
         }
 
         public enum SettingsFormAction
