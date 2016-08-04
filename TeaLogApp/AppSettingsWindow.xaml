@@ -1,9 +1,10 @@
-﻿<Window x:Class="TeaLog.AppSettingsWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeaLog"
+        xmlns:Settings="clr-namespace:TeaLog.Settings" x:Class="TeaLog.AppSettingsWindow"
         mc:Ignorable="d"
         Title="TeaLog Settings" Height="302.543" Width="502.119">
     <Grid>
@@ -13,58 +14,64 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
-            <TextBlock>Log File</TextBlock>
-            <TextBox Grid.Column="1"></TextBox>
-            <Button Grid.Column="2">...</Button>
+
+            <TextBlock><Run Text="Log File"/></TextBlock>
+            <TextBox Grid.Column="1"/>
+            <Button Grid.Column="2" Content="..."/>
         </Grid>
 
         <StackPanel Grid.Row="1">
-            <TextBlock>Categories</TextBlock>
+            <TextBlock><Run Text="Categories"/></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ListBox></ListBox>
+                <ListBox ItemsSource="{Binding Path=Categories}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Path=Name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <StackPanel Grid.Column="1">
-                    <Button>+</Button>
-                    <Button>-</Button>
-                    <Button>^</Button>
-                    <Button>v</Button>
+                    <Button Content="+"/>
+                    <Button Content="-"/>
+                    <Button Content="^"/>
+                    <Button Content="v"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2">
-            <TextBlock>Loggables</TextBlock>
+            <TextBlock><Run Text="Loggables"/></TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <DataGrid></DataGrid>
+                <DataGrid/>
                 <StackPanel Grid.Column="1">
-                    <Button>+</Button>
-                    <Button>-</Button>
-                    <Button>^</Button>
-                    <Button>v</Button>
+                    <Button Content="+"/>
+                    <Button Content="-"/>
+                    <Button Content="^"/>
+                    <Button Content="v"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button>Save</Button>
-            <Button>Cancel</Button>
+            <Button Content="Save"/>
+            <Button Content="Cancel"/>
         </StackPanel>
     </Grid>
 </Window>

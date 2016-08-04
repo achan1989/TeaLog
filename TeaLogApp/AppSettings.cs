@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace TeaLog.Settings
         /// <summary>
         /// Optional list of categories that each loggable thing can be associated with.
         /// </summary>
-        public List<string> Categories;
+        public ObservableCollection<Category> Categories { get; private set; }
         /// <summary>
         /// A list of things that are loggable.
         /// </summary>
@@ -60,7 +61,7 @@ namespace TeaLog.Settings
         public AppSettings()
         {
             LogFilePath = null;
-            Categories = new List<string>();
+            Categories = new ObservableCollection<Category>();
             LoggableThings = new List<LoggableThing>();
         }
 
@@ -73,7 +74,7 @@ namespace TeaLog.Settings
             var clone = new AppSettings();
 
             clone.LogFilePath = LogFilePath;
-            clone.Categories.AddRange(Categories);
+            clone.Categories = new ObservableCollection<Category>(Categories);
 
             foreach (var thing in LoggableThings)
             {
@@ -134,6 +135,27 @@ namespace TeaLog.Settings
             {
                 ser.Serialize(fs, settings);
             }
+        }
+    }
+
+
+    /// <summary>
+    /// Wraps a simple string.
+    /// </summary>
+    /// <remarks>
+    /// WPF can't bind a collection of strings to a ListBox and make the strings editable.
+    /// The collection has to be some object, with the string as a parameter.
+    /// See http://stackoverflow.com/questions/5793438/how-to-make-listbox-editable-when-bound-to-a-liststring
+    /// </remarks>
+    public class Category
+    {
+        public string Name { get; set; }
+
+        public Category() { }
+
+        public Category(string name)
+        {
+            Name = name;
         }
     }
 
