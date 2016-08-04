@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -63,6 +64,23 @@ namespace TeaLog.Settings
             LogFilePath = null;
             Categories = new ObservableCollection<Category>();
             LoggableThings = new List<LoggableThing>();
+
+            // Design-time data so the designer can show what things would look like at runtime.
+            if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
+            {
+                LogFilePath = "D:\\Libraries\\Documents\\TeaLogs\\something.log";
+
+                Categories.Add(new Category("tea"));
+                Categories.Add(new Category("snacks"));
+                Categories.Add(new Category("something longer"));
+
+                LoggableThings.Add(new LoggableThing() {
+                    Name = "Earl Grey",
+                    DisplayColour = "some colour",
+                    Category = "tea",
+                    ShowInMenu = true
+                });
+            }
         }
 
         /// <summary>

@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:TeaLog"
         xmlns:Settings="clr-namespace:TeaLog.Settings" x:Class="TeaLog.AppSettingsWindow"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Settings:AppSettings, IsDesignTimeCreatable=True}"
         Title="TeaLog Settings" Height="302.543" Width="502.119">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
