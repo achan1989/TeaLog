@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using TeaLog.Settings;
 
 
@@ -91,6 +92,7 @@ namespace TeaLog
                  * even if the user chooses not to save. */
                 settingsWindow = new AppSettingsWindow(settings.DeepClone());
                 settingsWindow.Closed += settingsWindow_Closed;
+                ElementHost.EnableModelessKeyboardInterop(settingsWindow);
                 settingsWindow.Show();
             }
             else
