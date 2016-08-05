@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeaLog"
-        xmlns:Settings="clr-namespace:TeaLog.Settings" x:Class="TeaLog.AppSettingsWindow"
+        xmlns:Settings="clr-namespace:TeaLog.Settings" xmlns:Controls="clr-namespace:TeaLog.Controls" x:Class="TeaLog.AppSettingsWindow"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Settings:AppSettings, IsDesignTimeCreatable=True}"
+        d:DataContext="{d:DesignInstance {x:Type Settings:AppSettings}, IsDesignTimeCreatable=True}"
         Title="TeaLog Settings" Height="302.543" Width="502.119">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,29 +29,15 @@
             <Button Grid.Column="2" Content="..."/>
         </Grid>
 
-        <StackPanel Grid.Row="1">
-            <TextBlock><Run Text="Categories"/></TextBlock>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <ListBox ItemsSource="{Binding Path=Categories}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBox Text="{Binding Path=Name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <StackPanel Grid.Column="1">
-                    <Button Content="+"/>
-                    <Button Content="-"/>
-                    <Button Content="^"/>
-                    <Button Content="v"/>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0"><Run Text="Categories"/></TextBlock>
+            <Controls:CategoriesEditor Grid.Row="1" />
+        </Grid>
 
         <StackPanel Grid.Row="2">
             <TextBlock><Run Text="Loggables"/></TextBlock>

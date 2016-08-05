@@ -31,11 +31,6 @@ namespace TeaLog
             Settings = settings;
             Action = AppSettingsWindowAction.Cancel;
             DataContext = Settings;
-
-            // TODO: remove after data bindings and window design have been sorted.
-            settings.Categories.Add(new Category("cat1"));
-            settings.Categories.Add(new Category("cat2"));
-            settings.Categories.Add(new Category("cat3"));
             
             using (var fs = new FileStream("tea.ico", FileMode.Open, FileAccess.Read))
             {

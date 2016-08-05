@@ -53,6 +53,9 @@
     <Compile Include="AppSettingsWindow.xaml.cs">
       <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CategoriesEditor.xaml.cs">
+      <DependentUpon>CategoriesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
@@ -83,6 +86,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AppSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\CategoriesEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="TeaLog.Controls.CategoriesEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TeaLog.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="300">
+    
+    <ListBox x:Name="categoriesList" ItemsSource="{Binding Path=Categories}"
+             HorizontalContentAlignment="Stretch" >
+        <ListBox.Template>
+            <!-- The buttons are part of the ListBox control, instead of their own separate panel,
+            to work around a focus issue.  If it were done that way, then clicking the plus button
+            would steal focus from the ListBox, and the newly added item could not be automatically
+            selected. -->
+            <ControlTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer Grid.Column="0">
+                        <ItemsPresenter  />
+                    </ScrollViewer>
+                    
+                    <StackPanel Grid.Column="1">
+                        <Button Content="+" Click="AddButton_Click"/>
+                        <Button Content="-"/>
+                        <Button Content="^"/>
+                        <Button Content="v"/>
+                    </StackPanel>
+                </Grid>
+            </ControlTemplate>
+        </ListBox.Template>
+            
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <TextBox Text="{Binding Path=Name , Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewMouseUp="TextBox_PreviewMouseUp" />
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+</UserControl>

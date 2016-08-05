@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace TeaLog
 {
@@ -35,7 +37,29 @@ namespace TeaLog
                 ex = ex.InnerException;
             }
 
-            return MessageBox.Show(sb.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return System.Windows.Forms.MessageBox.Show(sb.ToString(), caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Find a particular type of ancestor in an object's visual tree.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        public static T FindAncestor<T>(DependencyObject from) where T : class
+        {
+            if (from == null)
+            {
+                return null;
+            }
+
+            T candidate = from as T;
+            if (candidate != null)
+            {
+                return candidate;
+            }
+
+            return FindAncestor<T>(VisualTreeHelper.GetParent(from));
         }
     }
 }
