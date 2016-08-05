@@ -36,6 +36,11 @@ namespace TeaLog.Controls
             categoriesList.ScrollIntoView(newCat);
         }
 
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO
+        }
+
         /// <summary>
         /// Selects the category when clicked (TextBox normally blocks this).
         /// </summary>

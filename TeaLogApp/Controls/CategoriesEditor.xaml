@@ -33,7 +33,18 @@
                     
                     <StackPanel Grid.Column="1">
                         <Button Content="+" Click="AddButton_Click"/>
-                        <Button Content="-"/>
+                        <Button Content="-" Click="RemoveButton_Click" >
+                            <Button.Style>
+                                <Style>
+                                    <Setter Property="Button.IsEnabled" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=categoriesList, Path=SelectedItem}" Value="{x:Null}" >
+                                            <Setter Property="Button.IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <Button Content="^"/>
                         <Button Content="v"/>
                     </StackPanel>
