@@ -9,6 +9,12 @@
     
     <ListBox x:Name="categoriesList" ItemsSource="{Binding Path=Categories}"
              HorizontalContentAlignment="Stretch" >
+        <ListBox.Resources>
+            <!-- ListBox uses ControlBrushKey to (not) highlight the selected item when focus is lost.
+            We want it highlighted the same way regardless of focus, so redefine ControlBrushKey. -->
+            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                             Color="{Binding Source={x:Static SystemColors.HighlightColor}}" />
+        </ListBox.Resources>
         <ListBox.Template>
             <!-- The buttons are part of the ListBox control, instead of their own separate panel,
             to work around a focus issue.  If it were done that way, then clicking the plus button
