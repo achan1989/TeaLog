@@ -12,7 +12,15 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid DataContext="{Binding Path=Loggables}" />
+        <DataGrid ItemsSource="{Binding Path=Loggables}" AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Colour" Binding="{Binding DisplayColour}" />
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                <DataGridCheckBoxColumn Header="In Menu" Binding="{Binding ShowInMenu}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
         <StackPanel Grid.Column="1">
             <Button Content="+"/>
             <Button Content="-"/>
