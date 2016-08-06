@@ -53,7 +53,7 @@ namespace TeaLog.Settings
         /// <summary>
         /// A list of things that are loggable.
         /// </summary>
-        public List<LoggableThing> LoggableThings;
+        public ObservableCollection<Loggable> Loggables { get; private set; }
 
 
         /// <summary>
@@ -63,21 +63,28 @@ namespace TeaLog.Settings
         {
             LogFilePath = null;
             Categories = new ObservableCollection<Category>();
-            LoggableThings = new List<LoggableThing>();
+            Loggables = new ObservableCollection<Loggable>();
 
             // Design-time data so the designer can show what things would look like at runtime.
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
-                LogFilePath = "D:\\Libraries\\Documents\\TeaLogs\\something.log";
+                LogFilePath = "D:\\Libraries\\Documents\\TeaLogs\\test.log";
 
                 Categories.Add(new Category("tea"));
                 Categories.Add(new Category("snacks"));
                 Categories.Add(new Category("something longer"));
 
-                LoggableThings.Add(new LoggableThing() {
+                Loggables.Add(new Loggable() {
                     Name = "Earl Grey",
                     DisplayColour = "some colour",
                     Category = "tea",
+                    ShowInMenu = true
+                });
+                Loggables.Add(new Loggable()
+                {
+                    Name = "Banana",
+                    DisplayColour = "yellow",
+                    Category = "fruit",
                     ShowInMenu = true
                 });
             }
@@ -94,9 +101,9 @@ namespace TeaLog.Settings
             clone.LogFilePath = LogFilePath;
             clone.Categories = new ObservableCollection<Category>(Categories);
 
-            foreach (var thing in LoggableThings)
+            foreach (var thing in Loggables)
             {
-                clone.LoggableThings.Add(new LoggableThing(thing));
+                clone.Loggables.Add(new Loggable(thing));
             }
 
             return clone;
@@ -181,32 +188,32 @@ namespace TeaLog.Settings
     /// <summary>
     /// Configurable settings for a category of thing that can be logged.
     /// </summary>
-    public class LoggableThing
+    public class Loggable
     {
         /// <summary>
         /// The name that appears in the menu and log entry.
         /// </summary>
-        public string Name;
+        public string Name { get; set; }
         /// <summary>
         /// The colour that appears in the menu.
         /// </summary>
-        public string DisplayColour;
+        public string DisplayColour { get; set; }
         /// <summary>
         /// An optional category that this thing belongs to. Appears in the log entry if provided.
         /// </summary>
-        public string Category;
+        public string Category { get; set; }
         /// <summary>
         /// Whether this should be shown in the context menu.
         /// </summary>
-        public bool ShowInMenu;
+        public bool ShowInMenu { get; set; }
 
-        public LoggableThing() { }
+        public Loggable() { }
 
         /// <summary>
         /// Create a LoggableThing that is identical to another LoggableThing.
         /// </summary>
         /// <param name="other">The LoggableThing to copy.</param>
-        public LoggableThing(LoggableThing other)
+        public Loggable(Loggable other)
         {
             this.Name = other.Name;
             this.DisplayColour = other.DisplayColour;
