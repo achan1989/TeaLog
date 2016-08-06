@@ -92,6 +92,7 @@ namespace TeaLog
                  * even if the user chooses not to save. */
                 settingsWindow = new AppSettingsWindow(settings.DeepClone());
                 settingsWindow.Closed += settingsWindow_Closed;
+                settingsWindow.SaveRequested += settingsWindow_SaveRequested;
                 ElementHost.EnableModelessKeyboardInterop(settingsWindow);
                 settingsWindow.Show();
             }
@@ -108,28 +109,28 @@ namespace TeaLog
             }
         }
 
-        private void settingsWindow_Closed(object sender, EventArgs e)
+        private void settingsWindow_SaveRequested(object sender, EventArgs e)
         {
             var sw = sender as AppSettingsWindow;
-            Debug.Assert(sw != null, "Closed settingsForm but sf object is null.");
+            Debug.Assert(sw != null, "Saving settingsForm but sf object is null.");
 
-            settingsWindow = null;
-
-            if (sw.Action == AppSettingsWindow.AppSettingsWindowAction.Save)
+            try
             {
-                try
-                {
-                    var newSettings = sw.Settings;
-                    AppSettings.SaveSettings(newSettings);
-                    settings = newSettings;
-                }
-                catch (Exception ex)
-                {
-                    Util.ShowException("Error saving new application settings.", ex);
-                }
-
-                // TODO: switch log files if necessary.
+                var newSettings = sw.Settings;
+                AppSettings.SaveSettings(newSettings);
+                settings = newSettings;
             }
+            catch (Exception ex)
+            {
+                Util.ShowException("Error saving new application settings.", ex);
+            }
+
+            // TODO: switch log files if necessary.
+        }
+
+        private void settingsWindow_Closed(object sender, EventArgs e)
+        {
+            settingsWindow = null;
         }
     }
 }

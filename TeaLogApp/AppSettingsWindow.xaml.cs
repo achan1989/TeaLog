@@ -24,6 +24,8 @@ namespace TeaLog
         public AppSettings Settings { get; private set; }
         public AppSettingsWindowAction Action { get; private set; }
 
+        public event EventHandler SaveRequested;
+
 
         public AppSettingsWindow(AppSettings settings)
         {
@@ -55,6 +57,16 @@ namespace TeaLog
             {
                 logFileTextBox.Text = dlg.FileName;
             }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveRequested?.Invoke(this, new EventArgs());
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
