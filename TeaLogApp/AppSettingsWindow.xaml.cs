@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,17 @@ namespace TeaLog
         {
             Cancel,
             Save
+        }
+
+        private void BrowseLogFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            bool? result = dlg.ShowDialog(this);
+
+            if (result == true)
+            {
+                logFileTextBox.Text = dlg.FileName;
+            }
         }
     }
 }

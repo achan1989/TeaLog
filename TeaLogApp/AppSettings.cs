@@ -45,7 +45,7 @@ namespace TeaLog.Settings
         /// <summary>
         /// Where to save the log.  Should be an absolute path with filename.
         /// </summary>
-        public string LogFilePath;
+        public string LogFilePath { get; set; }
         /// <summary>
         /// Optional list of categories that each loggable thing can be associated with.
         /// </summary>
