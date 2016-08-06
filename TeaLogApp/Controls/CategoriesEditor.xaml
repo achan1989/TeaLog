@@ -45,8 +45,6 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Content="^"/>
-                        <Button Content="v"/>
                     </StackPanel>
                 </Grid>
             </ControlTemplate>
