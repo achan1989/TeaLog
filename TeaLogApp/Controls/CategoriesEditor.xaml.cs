@@ -38,7 +38,12 @@ namespace TeaLog.Controls
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            var cat = categoriesList.SelectedItem as Category;
+            if (cat != null)
+            {
+                var categories = categoriesList.ItemsSource as IList<Category>;
+                categories.Remove(cat);
+            }
         }
 
         /// <summary>
