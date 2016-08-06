@@ -56,6 +56,9 @@
     <Compile Include="Controls\CategoriesEditor.xaml.cs">
       <DependentUpon>CategoriesEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LoggablesEditor.xaml.cs">
+      <DependentUpon>LoggablesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="AppSettings.cs" />
   </ItemGroup>
@@ -92,6 +95,10 @@
     <Page Include="Controls\CategoriesEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LoggablesEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

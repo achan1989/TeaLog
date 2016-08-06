@@ -39,23 +39,15 @@
             <Controls:CategoriesEditor Grid.Row="1" />
         </Grid>
 
-        <StackPanel Grid.Row="2">
-            <TextBlock><Run Text="Loggables"/></TextBlock>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <DataGrid/>
-                <StackPanel Grid.Column="1">
-                    <Button Content="+"/>
-                    <Button Content="-"/>
-                    <Button Content="^"/>
-                    <Button Content="v"/>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0"><Run Text="Loggables"/></TextBlock>
+            <Controls:LoggablesEditor Grid.Row="1" />
+        </Grid>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Save" Click="SaveButton_Click" />
