@@ -41,6 +41,7 @@ namespace TeaLog
         private readonly NotifyIcon notifyIcon;
         private AppSettings settings;
         private AppSettingsWindow settingsWindow;
+        private FileStream logStream;
 
 
         public LogManager(NotifyIcon notifyIcon)
@@ -49,6 +50,7 @@ namespace TeaLog
             settingsWindow = null;
 
             LoadAppSettings();
+            OpenLog();
         }
 
         private void LoadAppSettings()
@@ -73,6 +75,32 @@ namespace TeaLog
             {
                 settings = new AppSettings();
                 AppSettings.SaveSettings(settings);
+            }
+        }
+
+        private void OpenLog()
+        {
+            if (logStream != null)
+            {
+                // No need to reopen the file if we already have it open.
+                if (logStream.Name.Equals(settings.LogFilePath.Trim())) { return; }
+
+                logStream.Close();
+                logStream.Dispose();
+                logStream = null;
+            }
+            
+            if (string.IsNullOrWhiteSpace(settings.LogFilePath)) { return; }
+
+            try
+            {
+                logStream = new FileStream(
+                    settings.LogFilePath.Trim(),
+                    FileMode.Append, FileAccess.Write, FileShare.Read);
+            }
+            catch (Exception ex)
+            {
+                Util.ShowException("Can't open log file.", ex);
             }
         }
 
@@ -161,7 +189,8 @@ namespace TeaLog
                 Util.ShowException("Error saving new application settings.", ex);
             }
 
-            // TODO: switch log files if necessary.
+            // Switch log files if necessary.
+            OpenLog();
         }
 
         private void settingsWindow_Closed(object sender, EventArgs e)
