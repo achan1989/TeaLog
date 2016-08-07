@@ -12,7 +12,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <DataGrid ItemsSource="{Binding Path=Loggables}" AutoGenerateColumns="False" >
+        <DataGrid x:Name="loggablesDataGrid" ItemsSource="{Binding Path=Loggables}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Colour" Binding="{Binding DisplayColour}" />
@@ -22,8 +22,8 @@
         </DataGrid>
         
         <StackPanel Grid.Column="1">
-            <Button Content="+"/>
-            <Button Content="-"/>
+            <Button Content="+" Click="AddButton_Click" />
+            <Button Content="-" Click="RemoveButton_Click"/>
             <Button Content="^"/>
             <Button Content="v"/>
         </StackPanel>
