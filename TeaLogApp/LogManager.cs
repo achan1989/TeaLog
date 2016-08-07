@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -82,6 +83,41 @@ namespace TeaLog
             var configItem = new ToolStripMenuItem("Config");
             configItem.Click += ConfigItem_Click;
             menu.Items.Add(configItem);
+
+            menu.Items.Add(new ToolStripSeparator());
+
+            foreach (var loggable in settings.Loggables)
+            {
+                if (!loggable.ShowInMenu) { continue; }
+
+                Color col;
+                try
+                {
+                    col = ColorTranslator.FromHtml(loggable.DisplayColour);
+                }
+                catch (Exception ex)
+                {
+                    Util.ShowException("Can't parse DisplayColour for " + loggable.Name, ex);
+                    col = Color.White;
+                }
+
+                var bmp = new Bitmap(16, 16);
+                using (var gfx = Graphics.FromImage(bmp))
+                using (var brush = new SolidBrush(col))
+                {
+                    gfx.FillRectangle(brush, 0, 0, bmp.Width, bmp.Height);
+                }
+
+                var menuItem = new ToolStripMenuItem(loggable.Name);
+                menuItem.Image = bmp;
+                menuItem.Click += LoggableItem_Click;
+                menu.Items.Add(menuItem);
+            }
+        }
+
+        private void LoggableItem_Click(object sender, EventArgs e)
+        {
+            // TODO
         }
 
         private void ConfigItem_Click(object sender, EventArgs e)
