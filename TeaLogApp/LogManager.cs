@@ -41,7 +41,6 @@ namespace TeaLog
         private readonly NotifyIcon notifyIcon;
         private AppSettings settings;
         private AppSettingsWindow settingsWindow;
-        private FileStream logStream;
 
 
         public LogManager(NotifyIcon notifyIcon)
@@ -50,7 +49,7 @@ namespace TeaLog
             settingsWindow = null;
 
             LoadAppSettings();
-            OpenLog();
+            WarnIfLogFileInvalid();
         }
 
         private void LoadAppSettings()
@@ -78,30 +77,48 @@ namespace TeaLog
             }
         }
 
-        private void OpenLog()
+        private FileStream OpenLog()
         {
-            if (logStream != null)
-            {
-                // No need to reopen the file if we already have it open.
-                if (logStream.Name.Equals(settings.LogFilePath.Trim())) { return; }
-
-                logStream.Close();
-                logStream.Dispose();
-                logStream = null;
-            }
-            
-            if (string.IsNullOrWhiteSpace(settings.LogFilePath)) { return; }
+            if (string.IsNullOrWhiteSpace(settings.LogFilePath)) { return null; }
 
             try
             {
-                logStream = new FileStream(
+                var logStream = new FileStream(
                     settings.LogFilePath.Trim(),
                     FileMode.Append, FileAccess.Write, FileShare.Read);
+                return logStream;
             }
             catch (Exception ex)
             {
                 Util.ShowException("Can't open log file.", ex);
+                return null;
             }
+        }
+
+        private void WarnIfLogFileInvalid()
+        {
+            // Attempt to open the configured log file, shows error message if this isn't possible.
+            var logStream = OpenLog();
+            if (logStream != null) { logStream.Close(); }
+        }
+
+        private string FormatLogLine(Loggable loggable)
+        {
+            // { "type": "log", "item": "Earl Grey", "category": "tea", "datetime": "2016-08-07T13:05:01Z" }
+
+            var sb = new StringBuilder(@"{ ""type"": ""log"",");
+
+            sb.AppendFormat(@" ""item"": ""{0}"",", loggable.Name);
+
+            string categoryValue = string.IsNullOrWhiteSpace(loggable.Category?.Trim()) ? "null" : loggable.Category.Trim();
+            sb.AppendFormat(@" ""category"": ""{0}"",", categoryValue);
+
+            string dtValue = DateTime.UtcNow.ToString(@"yyyy-MM-ddTHH\:mm\:ssZ");
+            sb.AppendFormat(@" ""datetime"": ""{0}"" ", dtValue);
+
+            sb.Append("}");
+
+            return sb.ToString();
         }
 
         public void BuildContextMenu(ContextMenuStrip menu, ToolStripMenuItem exitItem)
@@ -138,6 +155,7 @@ namespace TeaLog
 
                 var menuItem = new ToolStripMenuItem(loggable.Name);
                 menuItem.Image = bmp;
+                menuItem.Tag = loggable;
                 menuItem.Click += LoggableItem_Click;
                 menu.Items.Add(menuItem);
             }
@@ -145,7 +163,20 @@ namespace TeaLog
 
         private void LoggableItem_Click(object sender, EventArgs e)
         {
-            // TODO
+            var loggable = ((sender as ToolStripMenuItem)?.Tag as Loggable);
+            Debug.Assert(loggable != null, "In click handler, loggable is null.");
+
+            string toLog = FormatLogLine(loggable);
+
+            var logStream = OpenLog();
+            if (logStream != null)
+            {
+                using (var sw = new StreamWriter(logStream, Encoding.UTF8))
+                {
+                    sw.WriteLine(toLog);
+                    //sw.Flush();
+                }
+            }
         }
 
         private void ConfigItem_Click(object sender, EventArgs e)
@@ -189,8 +220,7 @@ namespace TeaLog
                 Util.ShowException("Error saving new application settings.", ex);
             }
 
-            // Switch log files if necessary.
-            OpenLog();
+            WarnIfLogFileInvalid();
         }
 
         private void settingsWindow_Closed(object sender, EventArgs e)
