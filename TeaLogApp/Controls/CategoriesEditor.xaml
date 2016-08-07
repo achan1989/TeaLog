@@ -20,6 +20,8 @@
             to work around a focus issue.  If it were done that way, then clicking the plus button
             would steal focus from the ListBox, and the newly added item could not be automatically
             selected. -->
+            <!-- TODO: this probably isn't true now (see highlighting comment above), consider
+            simplifying things? -->
             <ControlTemplate>
                 <Grid>
                     <Grid.ColumnDefinitions>
